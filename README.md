@@ -5,7 +5,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/codinglabsau/cody/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/codinglabsau/cody/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/codinglabsau/cody.svg?style=flat-square)](https://packagist.org/packages/codinglabsau/cody)
 
-Cody is an AI Agent that allows you to run AI workflows on-demand, or on a schedule that you define.
+Cody is an AI Agent that allows you to run AI workflows on-demand, or on a schedule that you define, right inside your Laravel app.
 
 ## Features
 
