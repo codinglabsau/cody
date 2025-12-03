@@ -3,6 +3,11 @@
 namespace Codinglabs\Cody;
 
 use Spatie\LaravelPackageTools\Package;
+use Codinglabs\Cody\Commands\CodyCommand;
+use Codinglabs\Cody\Commands\CodyListCommand;
+use Codinglabs\Cody\Commands\CodyRemoveCommand;
+use Codinglabs\Cody\Commands\CodyLinearCommand;
+use Codinglabs\Cody\Commands\CodyMakeTaskCommand;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class CodyServiceProvider extends PackageServiceProvider
@@ -13,11 +18,11 @@ class CodyServiceProvider extends PackageServiceProvider
             ->name('cody')
             ->hasConfigFile()
             ->hasCommands([
-                \Codinglabs\Cody\Commands\CodyCommand::class,
-                \Codinglabs\Cody\Commands\CodyLinearCommand::class,
-                \Codinglabs\Cody\Commands\CodyListCommand::class,
-                \Codinglabs\Cody\Commands\CodyMakeTaskCommand::class,
-                \Codinglabs\Cody\Commands\CodyRemoveCommand::class,
+                CodyCommand::class,
+                CodyLinearCommand::class,
+                CodyListCommand::class,
+                CodyMakeTaskCommand::class,
+                CodyRemoveCommand::class,
             ]);
     }
 }
