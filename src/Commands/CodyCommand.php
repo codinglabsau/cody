@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Codinglabs\Cody\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class CodyCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'cody';
 
     public $description = 'My command';
 
