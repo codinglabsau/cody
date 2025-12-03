@@ -12,7 +12,6 @@ class CodyServiceProvider extends PackageServiceProvider
         $package
             ->name('cody')
             ->hasConfigFile()
-            ->hasViews()
             ->hasCommands([
                 \Codinglabs\Cody\Commands\CodyCommand::class,
                 \Codinglabs\Cody\Commands\CodyLinearCommand::class,
