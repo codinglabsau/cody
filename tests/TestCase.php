@@ -2,9 +2,9 @@
 
 namespace Codinglabs\Cody\Tests;
 
+use Codinglabs\Cody\CodyServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Codinglabs\Cody\CodyServiceProvider;
 
 class TestCase extends Orchestra
 {
