@@ -34,9 +34,9 @@ trait RunsCodyCommands
             });
     }
 
-    protected function branchName(): string
+    protected function branchName(?string $branchName = null): string
     {
-        return sprintf('cody/%s', $this->argument('branch'));
+        return sprintf('cody/%s', $branchName ?? $this->argument('branch'));
     }
 
     protected function appDirectoryName(): string
@@ -44,9 +44,9 @@ trait RunsCodyCommands
         return Str::afterLast(base_path(), '/');
     }
 
-    protected function worktreeDirectory(): string
+    protected function worktreeDirectory(?string $branchName = null): string
     {
-        $branchName = $this->argument('branch');
+        $branchName = $branchName ?? $this->argument('branch');
 
         return base_path(sprintf("../%s-$branchName", $this->appDirectoryName()));
     }
