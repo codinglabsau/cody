@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Process;
 use Codinglabs\Cody\Concerns\RunsCodyCommands;
+
 use function Laravel\Prompts\spin;
 
 class CodyCommand extends Command
