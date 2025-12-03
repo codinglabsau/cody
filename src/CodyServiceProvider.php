@@ -4,6 +4,7 @@ namespace Codinglabs\Cody;
 
 use Spatie\LaravelPackageTools\Package;
 use Codinglabs\Cody\Commands\CodyCommand;
+use Codinglabs\Cody\Commands\CodyListCommand;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class CodyServiceProvider extends PackageServiceProvider
@@ -19,7 +20,9 @@ class CodyServiceProvider extends PackageServiceProvider
             ->name('cody')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_cody_table')
-            ->hasCommand(CodyCommand::class);
+            ->hasCommands([
+                CodyCommand::class,
+                CodyListCommand::class,
+            ]);
     }
 }
