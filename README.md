@@ -9,9 +9,10 @@ Cody is an AI Agent that allows you to run AI workflows on-demand, or on a sched
 
 ## Features
 
-- Enscapsulate the project AI strategy using simple tasks defined in markdown
-- Create git worktrees to your local environment, execute prompts, and create PRs on GitHub, all running in the background
-- Workflows can be invoked on-demand or scheduled as recurring tasks
+- Enscapsulate the project AI strategy using tasks defined in markdown
+- Manage git worktrees in your local environment through simple artisan commands
+- PRs submitted automatically to GitHub with AI-generated summaries
+- Workflows can be invoked on-demand or scheduled as recurring background tasks
 
 ## Installation
 
@@ -37,6 +38,22 @@ gh auth login
 # authenticate with Linear
 codex mcp add --url https://mcp.linear.app/mcp linear
 codex mcp login linear -c experimental_use_rmcp_client=true
+```
+
+The project `composer.json` should include a Cody setup script, which is executed on git worktrees to get the branch ready for agent workflows. For example:
+
+```json
+{
+    "scripts": {
+        "cody": [
+            "composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate",
+            "@php artisan boost:update",
+            "npm ci"
+        ]
+    }
+}
 ```
 
 You can publish the config file with:
