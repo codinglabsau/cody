@@ -2,6 +2,7 @@
 
 namespace Codinglabs\Cody\Tests;
 
+use Illuminate\Support\Facades\Process;
 use Codinglabs\Cody\CodyServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -11,6 +12,8 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
+
+        Process::preventingStrayProcesses();
 
         Factory::guessFactoryNamesUsing(
             fn (string $modelName) => 'Codinglabs\\Cody\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
