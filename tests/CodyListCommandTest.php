@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Process\ProcessResult;
 use Illuminate\Process\PendingProcess;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Artisan;
