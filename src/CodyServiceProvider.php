@@ -2,8 +2,8 @@
 
 namespace Codinglabs\Cody;
 
-use Codinglabs\Cody\Commands\CodyCommand;
 use Spatie\LaravelPackageTools\Package;
+use Codinglabs\Cody\Commands\CodyCommand;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class CodyServiceProvider extends PackageServiceProvider
