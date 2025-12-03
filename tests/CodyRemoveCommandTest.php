@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Process\PendingProcess;
-use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Process;
 use Codinglabs\Cody\Concerns\RunsCodyCommands;
 
 uses(RunsCodyCommands::class);
