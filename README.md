@@ -45,7 +45,7 @@ The project `composer.json` should include a Cody setup script, which is execute
 ```json
 {
     "scripts": {
-        "cody": [
+        "ai": [
             "composer install",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate",
@@ -70,6 +70,26 @@ return [
 ```
 
 ## Usage
+
+There are two main ways to use Cody Agent; on-demand, or on a schedule.
+
+### On-demand
+
+Coding can be invoked with `php artisan cody <branch-name> --prompt='<prompt>'`.
+
+For example: 
+
+```bash
+php artisan cody migrate-to-wayfinder --prompt='Switch from ziggy.js to Laravel Wayfinder. Update all references.'
+```
+
+This command will: 
+
+1. Create a new git worktree at `../<app-name>-migrate-to-wayfinder`
+2. Call `composer ai` script on the worktree
+3. Call Codex CLI with the prompt to complete the task
+4. Again call Codex to create a succint commit message and PR description
+5. Commit, push, and create a PR on GitHub using the PR template (when available)
 
 ```php
 $cody = new Codinglabs\Cody();

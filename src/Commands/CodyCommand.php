@@ -31,7 +31,7 @@ class CodyCommand extends Command
         ]);
 
         $this->executeCommands([
-            'composer cody',
+            'composer ai',
             "codex exec '$prompt' --full-auto",
         ], $worktreeDirectory);
 
