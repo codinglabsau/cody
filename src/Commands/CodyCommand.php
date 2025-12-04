@@ -2,10 +2,7 @@
 
 namespace Codinglabs\Cody\Commands;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Process;
 use Codinglabs\Cody\Concerns\RunsCodyCommands;
 
 use function Laravel\Prompts\spin;
@@ -35,32 +32,35 @@ class CodyCommand extends Command
             "codex exec '$prompt' --full-auto",
         ], $worktreeDirectory);
 
-        $command = "codex exec 'summarise the git changes into a succinct commit message. For the agent_message text, simply return the commit message, do not wrap it in supporting text.' --json";
-        $commitMessage = 'wip';
+        $response = spin(
+            callback: fn () => $this->executeAgentPrompt(
+                prompt: <<<'PROMPT'
+                    summarise the git changes into a succinct commit message and description.
 
-        $this->info(sprintf('=> %s', Str::limit($commitMessage)));
+                    Check for the existence of .github/PULL_REQUEST_TEMPLATE.md, and if it exists, fill in details as appropriate to summarise the PR.
 
-        spin(
-            callback: function () use ($worktreeDirectory, $command, &$commitMessage) {
-                return Process::path($worktreeDirectory)
-                    ->timeout(300)
-                    ->run($command, function (string $type, string $output) use (&$commitMessage) {
-                        $data = json_decode($output, true);
+                    The response should be in JSON format:
 
-                        if (Arr::get($data, 'type') === 'item.completed' && Arr::get($data, 'item.type') === 'agent_message') {
-                            $commitMessage = Arr::get($data, 'item.text');
-                        }
-                    })
-                    ->throw();
-            },
+                    {
+                        "commit": "the generated commit message",
+                        "description": "the generated PR description"
+                    }
+                PROMPT,
+                path: $worktreeDirectory
+            ),
             message: 'Generating commit message...',
         );
 
+        if (! is_array($response)) {
+            $this->error('Invalid response from AI agent.');
+            return;
+        }
+
         $this->executeCommands([
             'git add .',
-            "git commit -am '$commitMessage'",
+            "git commit -am '{$response['commit']}'",
             "git push -u origin $branchName",
-            "gh pr create --title '$branchName' --body 'This PR handles $commitMessage'",
+            "gh pr create --title '$branchName' --body '{$response['description']}'",
         ], $worktreeDirectory, [
             'GITHUB_TOKEN' => null, // nullify GITHUB_TOKEN in .env
         ]);

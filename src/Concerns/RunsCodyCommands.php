@@ -3,11 +3,39 @@
 namespace Codinglabs\Cody\Concerns;
 
 use Closure;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Process;
 
 trait RunsCodyCommands
 {
+    protected function executeAgentPrompt(string $prompt, ?string $path = null, array $environment = []): null|string|array
+    {
+        $command = sprintf("codex exec '%s' --json", $prompt);
+        $response = null;
+
+        $this->info(sprintf('=> %s', Str::limit($command)));
+
+        Process::path($path ?? base_path())
+            ->timeout(300)
+            ->env($environment)
+            ->run($command, function (string $type, string $output) use (&$response) {
+                $data = json_decode($output, true);
+
+                if (Arr::get($data, 'type') === 'item.completed' && Arr::get($data, 'item.type') === 'agent_message') {
+                    $response = Arr::get($data, 'item.text');
+                }
+            })
+            ->throw();
+
+        // parse JSON responses
+        if (is_string($response) && json_decode($response, true)) {
+            return json_decode($response, true);
+        }
+
+        return $response;
+    }
+
     protected function executeCommands(array $commands, ?string $path = null, array $environment = []): void
     {
         collect($commands)
@@ -51,7 +79,7 @@ trait RunsCodyCommands
         return base_path(sprintf("../%s-$branchName", $this->appDirectoryName()));
     }
 
-    protected function prompt(): string
+    protected function prompt(): ?string
     {
         return $this->option('prompt');
     }
