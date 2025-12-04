@@ -53,6 +53,7 @@ class CodyCommand extends Command
 
         if (! is_array($response)) {
             $this->error('Invalid response from AI agent.');
+
             return;
         }
 
