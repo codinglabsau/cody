@@ -3,6 +3,7 @@
 namespace Codinglabs\Cody\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Codinglabs\Cody\Concerns\RunsCodyCommands;
 
 class CodyCommand extends Command
@@ -61,5 +62,9 @@ class CodyCommand extends Command
         ], $worktreeDirectory, [
             'GITHUB_TOKEN' => null, // nullify GITHUB_TOKEN in .env
         ]);
+
+        Artisan::call(CodyRemoveCommand::class, [
+            'branch' => $branchName,
+        ], $this->output);
     }
 }
