@@ -5,7 +5,8 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/codinglabsau/cody/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/codinglabsau/cody/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/codinglabsau/cody.svg?style=flat-square)](https://packagist.org/packages/codinglabsau/cody)
 
-Cody is an AI Agent that allows you to run AI workflows on-demand, or on a schedule that you define, right inside your Laravel app.
+Cody is an AI Agent that allows you to run AI workflows on-demand, or on a schedule that you define, right inside your
+Laravel app.
 
 ## Features
 
@@ -40,7 +41,8 @@ codex mcp add --url https://mcp.linear.app/mcp linear
 codex mcp login linear -c experimental_use_rmcp_client=true
 ```
 
-The project `composer.json` should include a Cody setup script, which is executed on git worktrees to get the branch ready for agent workflows. For example:
+The project `composer.json` should include a Cody setup script, which is executed on git worktrees to get the branch
+ready for agent workflows. For example:
 
 ```json
 {
@@ -77,24 +79,19 @@ There are two main ways to use Cody Agent; on-demand, or on a schedule.
 
 Coding can be invoked with `php artisan cody <branch-name> --prompt='<prompt>'`.
 
-For example: 
+For example:
 
 ```bash
 php artisan cody migrate-to-wayfinder --prompt='Switch from ziggy.js to Laravel Wayfinder. Update all references.'
 ```
 
-This command will: 
+This command will:
 
 1. Create a new git worktree at `../<app-name>-migrate-to-wayfinder`
 2. Call `composer ai` script on the worktree
 3. Call Codex CLI with the prompt to complete the task
 4. Again call Codex to create a succint commit message and PR description
 5. Commit, push, and create a PR on GitHub using the PR template (when available)
-
-```php
-$cody = new Codinglabs\Cody();
-echo $cody->echoPhrase('Hello, Codinglabs!');
-```
 
 ## Testing
 
@@ -106,13 +103,9 @@ composer test
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
 ## Security Vulnerabilities
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+Create an issue to notify us of any security vulnerabilities.
 
 ## Credits
 
