@@ -11,22 +11,22 @@ use function Laravel\Prompts\text;
 use function Laravel\Prompts\textarea;
 use function Laravel\Prompts\multisearch;
 
-class CodyMakeTaskCommand extends Command
+class CodyMakePromptCommand extends Command
 {
     use RunsCodyCommands;
 
-    protected $signature = 'cody:task';
+    protected $signature = 'cody:prompt';
 
     protected $description = 'Create a new AI workflow on this project';
 
     public function handle(): void
     {
-        $title = text('What is the name of the task?');
+        $title = text('What is the name of the prompt?', required: true);
 
-        File::ensureDirectoryExists(base_path('.ai/tasks'));
+        File::ensureDirectoryExists(base_path('.ai/prompts'));
 
         File::put(
-            base_path(sprintf('.ai/tasks/%s', Str::slug($title) . '.md')),
+            base_path(sprintf('.ai/prompts/%s', Str::slug($title) . '.md')),
             str_replace(
                 [
                     '{{ TITLE }}',
@@ -35,10 +35,10 @@ class CodyMakeTaskCommand extends Command
                 ],
                 [
                     $title,
-                    textarea('Summarise what you would like to do.'),
+                    textarea('Summarise what you would like to do.', required: true),
                     collect(
                         multisearch(
-                            'Search for the directories to limit the scope of the task',
+                            'Search for the directories to limit the scope of the prompt',
                             fn (string $value) => strlen($value) > 0
                                 ? collect(File::allDirectories(base_path()))
                                     ->map(fn ($dir) => Str::after($dir, base_path() . '/'))
@@ -52,7 +52,7 @@ class CodyMakeTaskCommand extends Command
                         ->map(fn (string $value) => "- $value")
                         ->implode(PHP_EOL) ?: '- All project files',
                 ],
-                File::get(base_path('stubs/cody-task.stub'))
+                File::get(__DIR__ . '/../../stubs/prompt.stub')
             )
         );
     }

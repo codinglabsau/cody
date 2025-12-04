@@ -9,7 +9,7 @@ Cody is an AI Agent that allows you to run AI workflows on-demand, or on a sched
 
 ## Features
 
-- Enscapsulate the project AI strategy using tasks defined in markdown
+- Enscapsulate the project AI strategy using prompts defined in markdown
 - Manage git worktrees in your local environment through simple artisan commands
 - PRs submitted automatically to GitHub with AI-generated summaries
 - Workflows can be invoked on-demand or scheduled as recurring background tasks

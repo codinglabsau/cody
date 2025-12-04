@@ -7,7 +7,7 @@ use Codinglabs\Cody\Commands\CodyCommand;
 use Codinglabs\Cody\Commands\CodyListCommand;
 use Codinglabs\Cody\Commands\CodyLinearCommand;
 use Codinglabs\Cody\Commands\CodyRemoveCommand;
-use Codinglabs\Cody\Commands\CodyMakeTaskCommand;
+use Codinglabs\Cody\Commands\CodyMakePromptCommand;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class CodyServiceProvider extends PackageServiceProvider
@@ -21,7 +21,7 @@ class CodyServiceProvider extends PackageServiceProvider
                 CodyCommand::class,
                 CodyLinearCommand::class,
                 CodyListCommand::class,
-                CodyMakeTaskCommand::class,
+                CodyMakePromptCommand::class,
                 CodyRemoveCommand::class,
             ]);
     }
