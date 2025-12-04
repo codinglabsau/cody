@@ -42,7 +42,7 @@ class CodyLinearCommand extends Command
 
         Artisan::call(CodyCommand::class, [
             'branch' => $response['branchName'],
-            '--prompt' => "resolve Linear issue $issueId",
+            '--prompt' => "resolve Linear issue $issueId. If the issue description contains tasks, tick off any that were completed (keeping the original description intact). If you were unable to resolve the issue, leave a comment on the issue explaining why you were unsuccessful.",
         ], $this->output);
     }
 }
