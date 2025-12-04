@@ -5,8 +5,6 @@ namespace Codinglabs\Cody\Commands;
 use Illuminate\Console\Command;
 use Codinglabs\Cody\Concerns\RunsCodyCommands;
 
-use function Laravel\Prompts\spin;
-
 class CodyCommand extends Command
 {
     use RunsCodyCommands;
@@ -32,27 +30,26 @@ class CodyCommand extends Command
             "codex exec '$prompt' --full-auto",
         ], $worktreeDirectory);
 
-        $response = spin(
-            callback: fn () => $this->executeAgentPrompt(
-                prompt: <<<'PROMPT'
-                    summarise the git changes into a succinct commit message and description.
+        $response = $this->executeAgentPrompt(
+            prompt: <<<'PROMPT'
+                summarise the git changes into a succinct commit message and description.
 
-                    Check for the existence of .github/PULL_REQUEST_TEMPLATE.md, and if it exists, fill in details as appropriate to summarise the PR.
+                Check for the existence of .github/PULL_REQUEST_TEMPLATE.md, and if it exists, fill in details as appropriate to summarise the PR.
 
-                    The response should be in JSON format:
+                The response should be in JSON format:
 
-                    {
-                        "commit": "the generated commit message",
-                        "description": "the generated PR description"
-                    }
+                {
+                    "commit": "the generated commit message",
+                    "description": "the generated PR description"
+                }
                 PROMPT,
-                path: $worktreeDirectory
-            ),
-            message: 'Generating commit message...',
+            message: 'Generating summary of changes...',
+            path: $worktreeDirectory
         );
 
         if (! is_array($response)) {
             $this->error('Invalid response from AI agent.');
+
             return;
         }
 

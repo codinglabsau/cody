@@ -7,26 +7,33 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Process;
 
+use function Laravel\Prompts\spin;
+
 trait RunsCodyCommands
 {
-    protected function executeAgentPrompt(string $prompt, ?string $path = null, array $environment = []): null|string|array
+    protected function executeAgentPrompt(string $prompt, string $message, ?string $path = null, array $environment = []): null|string|array
     {
         $command = sprintf("codex exec '%s' --json", $prompt);
         $response = null;
 
-        $this->info(sprintf('=> %s', Str::limit($command)));
+        $this->info(sprintf('=> %s', Str::of($command)->trim()->limit()));
 
-        Process::path($path ?? base_path())
-            ->timeout(300)
-            ->env($environment)
-            ->run($command, function (string $type, string $output) use (&$response) {
-                $data = json_decode($output, true);
+        spin(
+            callback: function () use ($path, $environment, $command, &$response) {
+                return Process::path($path ?? base_path())
+                    ->timeout(300)
+                    ->env($environment)
+                    ->run($command, function (string $type, string $output) use (&$response) {
+                        $data = json_decode($output, true);
 
-                if (Arr::get($data, 'type') === 'item.completed' && Arr::get($data, 'item.type') === 'agent_message') {
-                    $response = Arr::get($data, 'item.text');
-                }
-            })
-            ->throw();
+                        if (Arr::get($data, 'type') === 'item.completed' && Arr::get($data, 'item.type') === 'agent_message') {
+                            $response = Arr::get($data, 'item.text');
+                        }
+                    })
+                    ->throw();
+            },
+            message: $message
+        );
 
         // parse JSON responses
         if (is_string($response) && json_decode($response, true)) {
