@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Process;
-
 use function Laravel\Prompts\spin;
 
 trait RunsCodyCommands
@@ -71,7 +70,7 @@ trait RunsCodyCommands
 
     protected function branchName(?string $branchName = null): string
     {
-        return sprintf('cody/%s', $branchName ?? $this->argument('branch'));
+        return $branchName ?? $this->argument('branch');
     }
 
     protected function appDirectoryName(): string
@@ -81,7 +80,7 @@ trait RunsCodyCommands
 
     protected function worktreeDirectory(?string $branchName = null): string
     {
-        $branchName = $branchName ?? $this->argument('branch');
+        $branchName = Str::replace('/', '-', ($branchName ?? $this->argument('branch')));
 
         return base_path(sprintf("../%s-$branchName", $this->appDirectoryName()));
     }
