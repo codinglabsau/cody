@@ -29,6 +29,7 @@ class CodyRemoveCommand extends Command
 
         if (! $worktree) {
             $this->error("No worktree found for branch '$branchName'.");
+
             return 1;
         }
 
