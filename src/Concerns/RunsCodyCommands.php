@@ -7,7 +7,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Process;
-
 use function Laravel\Prompts\spin;
 
 trait RunsCodyCommands
@@ -70,7 +69,7 @@ trait RunsCodyCommands
             });
     }
 
-    protected function branchName(?string $branchName = null): string
+    protected function branchName(?string $branchName = null): ?string
     {
         return $branchName ?? $this->argument('branch');
     }
