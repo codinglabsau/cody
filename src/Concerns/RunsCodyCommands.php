@@ -5,8 +5,8 @@ namespace Codinglabs\Cody\Concerns;
 use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Process;
-
 use function Laravel\Prompts\spin;
 
 trait RunsCodyCommands
@@ -94,5 +94,20 @@ trait RunsCodyCommands
     protected function workingTreeDirectoryExists(): bool
     {
         return is_dir($this->worktreeDirectory());
+    }
+
+    protected function worktrees(): Collection
+    {
+        return Str::of(Process::run('git worktree list')
+            ->output())
+            ->explode(PHP_EOL)
+            ->skip(1)
+            ->filter(fn (string $line) => ! empty($line))
+            ->values()
+            ->map(fn (string $line) => [
+                'path' => Str::before($line, ' '),
+                'hash' => Str::of($line)->between(' ', ' ')->trim(),
+                'branch' => Str::between($line, '[', ']'),
+            ]);
     }
 }
