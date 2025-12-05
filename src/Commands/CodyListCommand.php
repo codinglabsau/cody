@@ -2,7 +2,6 @@
 
 namespace Codinglabs\Cody\Commands;
 
-use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Codinglabs\Cody\Concerns\RunsCodyCommands;
 use function Laravel\Prompts\table;
@@ -18,9 +17,12 @@ class CodyListCommand extends Command
     public function handle(): void
     {
         table(
-            headers: ['Hash', 'Branch'],
+            headers: ['Branch', 'Hash'],
             rows: $this->worktrees()
-                ->map(fn (array $line) => Arr::only($line, ['hash', 'branch']))
+                ->map(fn (array $line) => [
+                    $line['branch'],
+                    $line['hash'],
+                ])
                 ->toArray()
         );
     }
