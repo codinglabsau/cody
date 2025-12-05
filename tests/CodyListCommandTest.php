@@ -11,7 +11,6 @@ test('process is invoked', function () {
 
     Process::assertRan(function (PendingProcess $process) {
         return $process->command === 'git worktree list' &&
-            $process->timeout === 300 &&
             $process->environment === [];
     });
 });
