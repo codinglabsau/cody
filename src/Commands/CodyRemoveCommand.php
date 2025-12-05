@@ -17,16 +17,21 @@ class CodyRemoveCommand extends Command
 
     public function handle(): void
     {
-        rd($this->worktrees());
+        $branchName = $this->branchName() ?? select(
+            label: 'Select the branch to remove',
+            options: $this->worktrees()->pluck('branch')->toArray(),
+        );
 
-        select();
+        $worktree = $this->worktrees()->firstWhere('branch', $branchName);
 
-        $branchName = $this->branchName();
-        $worktreeDirectory = $this->worktreeDirectory();
+        if (! $worktree) {
+            $this->error("No worktree found for branch '$branchName'.");
+            return;
+        }
 
         $this->executeCommands([
-            "git worktree remove $worktreeDirectory --force",
-            "git branch -d $branchName",
+            "git worktree remove {$worktree['path']} --force",
+            "git branch -d {$worktree['branch']}",
         ]);
     }
 }
