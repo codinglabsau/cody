@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Process;
+
 use function Laravel\Prompts\spin;
 
 trait RunsCodyCommands

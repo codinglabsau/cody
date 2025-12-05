@@ -5,6 +5,7 @@ namespace Codinglabs\Cody\Commands;
 use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Codinglabs\Cody\Concerns\RunsCodyCommands;
+
 use function Laravel\Prompts\table;
 
 class CodyListCommand extends Command
