@@ -1,7 +1,7 @@
-## {{ TITLE }}
+title: "{{ TITLE }}"
 
-### Summary
-{{ SUMMARY }}
+summary: |
+  {{ SUMMARY }}
 
-### File Scope
-{{ SCOPE }}
+scope: |
+  {{ SCOPE }}

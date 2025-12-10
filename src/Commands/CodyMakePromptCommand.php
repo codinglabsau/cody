@@ -6,7 +6,6 @@ use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Codinglabs\Cody\Concerns\RunsCodyCommands;
-
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\textarea;
 use function Laravel\Prompts\multisearch;
@@ -26,7 +25,7 @@ class CodyMakePromptCommand extends Command
         File::ensureDirectoryExists(base_path('.ai/prompts'));
 
         File::put(
-            base_path(sprintf('.ai/prompts/%s', Str::slug($title) . '.md')),
+            base_path(sprintf('.ai/prompts/%s', Str::slug($title) . '.yaml')),
             str_replace(
                 [
                     '{{ TITLE }}',
@@ -55,5 +54,7 @@ class CodyMakePromptCommand extends Command
                 File::get(__DIR__ . '/../../stubs/prompt.stub')
             )
         );
+
+        $this->info('Prompt created successfully.');
     }
 }
