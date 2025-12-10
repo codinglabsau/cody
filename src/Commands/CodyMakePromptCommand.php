@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\File;
 use Codinglabs\Cody\Concerns\RunsCodyCommands;
+
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\confirm;
@@ -78,7 +79,7 @@ class CodyMakePromptCommand extends Command
             );
 
             // Convert provided time (hh:mm) into cron fields (m H ...)
-            [$hour, $minute] = array_map(fn ($v) => (int)$v, explode(':', $time));
+            [$hour, $minute] = array_map(fn ($v) => (int) $v, explode(':', $time));
 
             $cron = match ($frequency) {
                 // Run at the specified minute of every hour
