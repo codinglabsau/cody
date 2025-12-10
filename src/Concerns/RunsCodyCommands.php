@@ -12,7 +12,7 @@ use function Laravel\Prompts\spin;
 
 trait RunsCodyCommands
 {
-    protected function executeAgentPrompt(string $prompt, string $message, ?string $path = null, array $environment = []): null|string|array
+    protected function executeAgentPrompt(string $prompt, string $message, ?string $path = null, array $environment = [], $timeout = 300): null|string|array
     {
         $command = sprintf("codex exec '%s' --json", $prompt);
         $response = null;
@@ -20,9 +20,9 @@ trait RunsCodyCommands
         $this->info(sprintf('=> %s', Str::of($command)->trim()->limit()));
 
         spin(
-            callback: function () use ($path, $environment, $command, &$response) {
+            callback: function () use ($path, $environment, $command, $timeout, &$response) {
                 return Process::path($path ?? base_path())
-                    ->timeout(300)
+                    ->timeout($timeout)
                     ->env($environment)
                     ->run($command, function (string $type, string $output) use (&$response) {
                         $data = json_decode($output, true);

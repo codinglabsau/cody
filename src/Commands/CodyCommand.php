@@ -10,7 +10,7 @@ class CodyCommand extends Command
 {
     use RunsCodyCommands;
 
-    protected $signature = 'cody {branch} {--prompt=}';
+    protected $signature = 'cody {branch} {--prompt=} {--timeout=300}';
 
     protected $description = 'Execute a AI workflow on this project';
 
@@ -45,7 +45,8 @@ class CodyCommand extends Command
                 }
                 PROMPT,
             message: 'Generating summary of changes...',
-            path: $worktreeDirectory
+            path: $worktreeDirectory,
+            timeout: (int) $this->option('timeout'),
         );
 
         if (! is_array($response)) {

@@ -10,7 +10,7 @@ class CodyLinearCommand extends Command
 {
     use RunsCodyCommands;
 
-    protected $signature = 'cody:linear {issueId}';
+    protected $signature = 'cody:linear {issueId} {--timeout=300}';
 
     protected $description = 'Complete a Linear issue';
 
@@ -32,6 +32,7 @@ class CodyLinearCommand extends Command
                 }
                 PROMPT,
             message: 'Retrieving Linear issue details...',
+            timeout: (int) $this->option('timeout'),
         );
 
         if (! is_array($response) || empty($response['branchName'])) {
