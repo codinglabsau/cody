@@ -38,7 +38,7 @@ class CodyServiceProvider extends PackageServiceProvider
     protected function schedulePrompts(): void
     {
         $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
-            if (! app()->environment('local')) {
+            if (! app()->environment('local') || ! config('cody.scheduler.enabled')) {
                 return;
             }
 
