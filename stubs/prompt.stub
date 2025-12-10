@@ -3,5 +3,5 @@ title: "{{ TITLE }}"
 summary: |
   {{ SUMMARY }}
 
-scope: |
-  {{ SCOPE }}
+scope:
+{{ SCOPE }}
