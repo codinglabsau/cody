@@ -22,21 +22,18 @@ class CodyRemoveCommand extends Command
             options: $this->worktrees()->pluck('branch')->toArray(),
         );
 
-        ray($branchName);
+        $worktrees = $this->worktrees();
 
-        $worktree = $this->worktrees()->firstWhere('branch', $branchName);
-
-        ray($worktree);
-
-        if (! $worktree) {
+        // If there are no worktrees at all, treat as an error
+        if ($worktrees->isEmpty()) {
             $this->error("No worktree found for branch '$branchName'.");
 
             return 1;
         }
 
         $this->executeCommands([
-            "git worktree remove {$worktree['path']} --force",
-            "git branch -d {$worktree['branch']}",
+            sprintf('git worktree remove %s --force', $this->worktreeDirectory($branchName)),
+            sprintf('git branch -d %s', $branchName),
         ]);
 
         return 0;

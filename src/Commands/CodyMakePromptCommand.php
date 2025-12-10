@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\File;
 use Codinglabs\Cody\Concerns\RunsCodyCommands;
-
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\confirm;
@@ -27,14 +26,14 @@ class CodyMakePromptCommand extends Command
         $title = text('What is the name of the prompt?', required: true);
 
         File::ensureDirectoryExists(base_path('.ai/prompts'));
-        $outputFile = base_path(sprintf('.ai/prompts/%s', Str::slug($title) . '.yaml'));
+        $outputFile = base_path(sprintf('.ai/prompts/%s', Str::slug($title) . '.yml'));
 
         File::put(
             $outputFile,
             str_replace(
                 [
                     '{{ TITLE }}',
-                    '{{ SUMMARY }}',
+                    '{{ PROMPT }}',
                     '{{ SCOPE }}',
                 ],
                 [
@@ -79,7 +78,7 @@ class CodyMakePromptCommand extends Command
             );
 
             // Convert provided time (hh:mm) into cron fields (m H ...)
-            [$hour, $minute] = array_map(fn ($v) => (int) $v, explode(':', $time));
+            [$hour, $minute] = array_map(fn ($v) => (int)$v, explode(':', $time));
 
             $cron = match ($frequency) {
                 // Run at the specified minute of every hour
@@ -94,7 +93,7 @@ class CodyMakePromptCommand extends Command
 
             File::append(
                 $outputFile,
-                PHP_EOL . 'schedule: ' . $cron . PHP_EOL
+                PHP_EOL . "schedule: '$cron'" . PHP_EOL
             );
         }
 
