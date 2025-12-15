@@ -10,7 +10,7 @@ Laravel app.
 
 ## Features
 
-- Enscapsulate the project AI strategy using prompts defined in markdown
+- Enscapsulate the project AI strategy using prompts defined in simple YAML files
 - Manage git worktrees in your local environment through simple artisan commands
 - PRs submitted automatically to GitHub with AI-generated summaries
 - Workflows can be invoked on-demand or scheduled as recurring background tasks
@@ -68,12 +68,17 @@ This is the contents of the published config file:
 
 ```php
 return [
+    'scheduler' => [
+        'enabled' => env('CODY_SCHEDULER_ENABLED', true),
+        'timezone' => env('CODY_TIMEZONE', 'UTC'),
+    ],
 ];
+
 ```
 
 ## Usage
 
-There are two main ways to use Cody Agent; on-demand, or on a schedule.
+There are two main ways to use Cody Agent; on-demand, or by creating reusable prompts with optional scheduling.
 
 ### On-demand
 
@@ -92,6 +97,18 @@ This command will:
 3. Call Codex CLI with the prompt to complete the task
 4. Again call Codex to create a succint commit message and PR description
 5. Commit, push, and create a PR on GitHub using the PR template (when available)
+
+### Reusable Prompts
+
+Reusable prompts can be created by running `php artisan cody:prompt`. This command will ask for all required inputs and
+output a YAML file to `.ai/prompts/<prompt-name>.yaml`.
+
+If you have defined prompts that you want to run on a schedule, you can run `php atisan cody:run` to have them run at
+the scheduled time.
+
+Note the `scheduler.timezone` configuration item; if your local PHP timezone is set to UTC, and you set the schedule in
+local time, you'll want to set the
+config item to match your local timezone to ensure the scheduler runs at the correct time.
 
 ## Testing
 
